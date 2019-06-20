@@ -1,0 +1,15 @@
+
+
+.navbar-text {
+  padding-right: .5rem;
+}
+
+.custom-function-list {
+	margin-right: 15px;
+	margin-top: 15px;
+}
+
+.pieChart {
+	height:100vh; 
+  width:40vw;
+}
