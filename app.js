@@ -77,7 +77,6 @@ app.get('/usercheck/:username', function(request, response) {
 	});
 });
 
-
 // + user login auth
 app.post('/login', function(request, response) {
 	var username = request.body.username;
@@ -90,29 +89,14 @@ app.post('/login', function(request, response) {
 			//console.log(results[0].uid);
 			var uid = results[0].uid;
 			if (results.length > 0) {
-				var promise1 = new Promise((resolve)=>{
-					console.log('pr1');
-					if (results[0].type == 1){ request.session.admin = true; resolve('1');}
-					else{	request.session.admin = false; resolve('2');}
+					if (results[0].type == 1){ request.session.admin = true; }
+					else{	request.session.admin = false; }
 
-				})
-				var promise2 = new Promise((resolve)=>{
-					console.log('pr2');
 					request.session.loggedin = true;
 					request.session.username = username;
 					request.session.uid = uid;
-					resolve('ok');
-				})
-				Promise.all([promise1, promise2]).then((values)=>{
-					console.log('pra1');
-					console.log(values);
+
 					response.redirect('/user');
-					console.log('pra2');
-				}).catch((error)=>{
-					console.log("login error");
-					console.log('prae');
-				})
-				console.log('ff');
 			} else {	
 				console.log('else1');
 				response.send('Incorrect Username and/or Password!');
@@ -135,7 +119,6 @@ app.post('/logout', function(request, response) {
 	response.redirect('/');
 });
 
-
 app.get('/admin', function(request, response){
 	if( request.session.loggedin && request.session.admin){
 		renderAdminList(request, response);
@@ -155,6 +138,7 @@ app.post('/admin/delete', function(request,response){
 		});
 	}
 });
+
 app.post('/admin/modify', function(request,response){
 	if(request.session.loggedin && request.session.admin){
 		console.log('/admin/modify');
@@ -166,6 +150,7 @@ app.post('/admin/modify', function(request,response){
 		});
 	}
 });
+
 // + user logged in page
 app.get('/user', function(request, response) {
 	var userhtml = fs.readFileSync(path.join(__dirname + '/user.html'), 'utf8');
@@ -207,8 +192,6 @@ app.post('/pieSearch', function(request, response){
 		response.end();
 	});
 });
-
-
 
 // ? user add record
 app.post('/addrec', function(request, response){
@@ -299,7 +282,6 @@ function renderUserList( request, response ){
 	);
 }
 
-
 const selectDay = 
 '<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option>'+
 '<option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option>'+
@@ -311,8 +293,6 @@ const selectYear = '<option value="2017">2017</option><option value="2018">2018<
 const cselectCategory = '<option value="all">All</option>';
 const backgroundColor = '[\'rgba(255, 99, 132, 0.8)\',\'rgba(54, 162, 235, 0.8)\',\'rgba(255, 206, 86, 0.8)\',\'rgba(75, 192, 192, 0.8)\',\'rgba(153, 102, 255, 0.8)\',\'rgba(255, 159, 64, 0.8)\']';
 //const backgroundColor = '[\'red\', \'orange\', \'yellow\', \'green\',\'cyan\' ,\'blue\',\'indigo\', \'purple\']';
-
-
 
 function renderUserChart( request, response) {
 	mysqlconn.query('select distinct(r_category) from record, relation where record.rid=relation.rid and relation.uid=? order by r_category desc',
@@ -372,9 +352,6 @@ function renderUserChart( request, response) {
 		});
 	});
 }
-
-
-
 
 const adminModifyButton = '<button class="btn btn-warning my-2 my-sm-0" data-toggle="modal" data-target="#addrecModal">新增(Add)</button>';
 function renderAdminList( request, response ){
