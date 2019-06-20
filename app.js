@@ -87,14 +87,14 @@ app.post('/login', function(request, response) {
 		mysqlconn.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
 			console.log(results);
 			//console.log(results[0].uid);
-			var uid = results[0].uid;
+			var uid;
 			if (results.length > 0) {
 					if (results[0].type == 1){ request.session.admin = true; }
 					else{	request.session.admin = false; }
 
 					request.session.loggedin = true;
-					request.session.username = username;
-					request.session.uid = uid;
+					request.session.username = results[0].username;
+					request.session.uid = results[0].uid;
 
 					response.redirect('/user');
 			} else {	
